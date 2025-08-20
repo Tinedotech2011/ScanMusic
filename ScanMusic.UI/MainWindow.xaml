@@ -1,0 +1,25 @@
+<Window x:Class="ScanMusic.UI.MainWindow"> 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    Title="ScanMusic 1.0" Height="500" Width="600" Background="White"> 
+    <Grid Margin="10"> 
+        <Grid.RowDefinitions> 
+            <RowDefinition Height="Auto"/> 
+            <RowDefinition Height="Auto"/> 
+            <RowDefinition Height="*"/> 
+        </Grid.RowDefinitions> 
+
+        <TextBlock Text="?? ScanMusic 1.0" FontSize="24" FontWeight="Bold" Margin="0,0,0,20" /> 
+
+        <DockPanel Grid.Row="1" Margin="0,0,0,10"> 
+            <Button Content="Buscar" DockPanel.Dock="Right" Width="80" Click="OnSearchClick"/> 
+            <TextBox x:Name="SearchBox" Placeholder="Buscar m£sica..." Height="30" /> 
+        </DockPanel> 
+
+        <ListBox Grid.Row="2" x:Name="ResultsList" 
+                 Background="#f8f8f8" 
+                 BorderBrush="#ccc" 
+                 FontFamily="Consolas" 
+                 FontSize="14" /> 
+    </Grid> 
+</Window> 

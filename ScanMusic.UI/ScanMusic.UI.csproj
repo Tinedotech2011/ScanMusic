@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk"> 
+  <PropertyGroup> 
+    <OutputType>WinExe</OutputType> 
+    <TargetFramework>net8.0-windows</TargetFramework> 
+    <UseWPF>true</UseWPF> 
+    <AssemblyName>ScanMusic</AssemblyName> 
+    <FileVersion>1.0.0</FileVersion> 
+    <AssemblyVersion>1.0.0</AssemblyVersion> 
+  </PropertyGroup> 
+  <ItemGroup> 
+    <ProjectReference Include="..\ScanMusic.Core\ScanMusic.Core.csproj" /> 
+  </ItemGroup> 
+</Project> 
