@@ -1,9 +1,14 @@
 <Window x:Class="ScanMusic.UI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="ScanMusic 1.0" Height="550" Width="600" Background="White">
+        Title="ScanMusic 1.0" Height="680" Width="750" Background="White">
     <Grid Margin="10">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -27,15 +32,56 @@
 
         <Button Content="Seleccionar Carpeta de Música" 
                 Grid.Row="2"
-                Margin="0,10,0,10"
+                Margin="0,10,0,5"
                 Padding="10,5"
                 Click="OnSelectFolderClick"
                 HorizontalAlignment="Stretch"/>
 
-        <ListBox Grid.Row="3" x:Name="ResultsList" 
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,5,0,10">
+            <Button Content="⏮️ Atrás" Width="80" Click="OnPreviousClick" Margin="0,0,5,0"/>
+            <Button Content="⏯️ Play/Pausa" Width="100" Click="OnPlayPauseClick"/>
+            <Button Content="⏹️ Detener" Width="80" Click="OnStopClick" Margin="5,0,5,0"/>
+            <Button Content="⏭️ Adelantar" Width="90" Click="OnNextClick" Margin="5,0,0,0"/>
+            <TextBlock Text="Volumen:" VerticalAlignment="Center" Margin="20,0,5,0"/>
+            <Slider x:Name="VolumeSlider" Minimum="0" Maximum="1" Value="0.8" Width="100" ValueChanged="OnVolumeChanged"/>
+        </StackPanel>
+
+        <Grid Grid.Row="4" Margin="0,5,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="CurrentTime" Text="00:00" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <ProgressBar x:Name="ProgressSlider" Grid.Column="1" Width="300" Height="10" Margin="10,0" Minimum="0" Maximum="100" Value="0"/>
+            <TextBlock x:Name="TotalTime" Text="00:00" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        </Grid>
+
+        <TextBlock Grid.Row="5" x:Name="StatusText" Text="Estado: Detenido" Margin="0,0,0,5" Foreground="Gray" FontStyle="Italic"/>
+
+        <!-- BANNER DE DESPLAZAMIENTO -->
+        <ScrollViewer x:Name="BannerScroll" 
+                      Grid.Row="6" 
+                      HorizontalScrollBarVisibility="Hidden" 
+                      VerticalScrollBarVisibility="Disabled"
+                      Background="Black"
+                      Height="40"
+                      Margin="0,10,0,10">
+            <TextBlock x:Name="BannerText"
+                       Text="🎵 Bienvenido a ScanMusic 1.0 - Escucha música sin límites"
+                       Foreground="White"
+                       FontFamily="Consolas"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"
+                       Padding="0,0,50,0"/>
+        </ScrollViewer>
+
+        <ListBox Grid.Row="8" x:Name="ResultsList" 
                  Background="#f8f8f8"
                  BorderBrush="#ccc"
                  FontFamily="Consolas"
-                 FontSize="14" />
+                 FontSize="14"
+                 MouseDoubleClick="OnFileDoubleClicked" />
     </Grid>
 </Window>

@@ -6,8 +6,8 @@ namespace ScanMusic.Core
 {
     public class PeerInfo
     {
-        public string Ip { get; set; }
-        public int Port { get; set; }
+        public required string Ip { get; set; }
+        public required int Port { get; set; }
         public List<string> SharedFiles { get; set; } = new List<string>();
     }
 
