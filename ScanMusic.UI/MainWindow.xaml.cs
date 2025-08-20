@@ -1,11 +1,12 @@
+// 1. Primero: todas las directivas 'using'
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using ScanMusic.Core;
 
+// 2. Después: el 'namespace'
 namespace ScanMusic.UI
 {
     public partial class MainWindow : Window
@@ -16,6 +17,7 @@ namespace ScanMusic.UI
         public MainWindow()
         {
             InitializeComponent();
+            p2p = new P2PManager();
             Loaded += OnWindowLoaded;
         }
 
@@ -61,14 +63,14 @@ namespace ScanMusic.UI
 
                 if (files.Count == 0)
                 {
-                    ResultsList.Items.Add("(Tu carpeta de m�sica est� vac�a)");
+                    ResultsList.Items.Add("(Tu carpeta de música está vacía)");
                 }
                 else
                 {
-                    ResultsList.Items.Add($"?? Archivos locales ({files.Count}):");
+                    ResultsList.Items.Add($"🎵 Archivos locales ({files.Count}):");
                     foreach (var file in files)
                     {
-                        ResultsList.Items.Add($" � {file}");
+                        ResultsList.Items.Add($" • {file}");
                     }
                 }
             }
@@ -78,12 +80,62 @@ namespace ScanMusic.UI
             }
         }
 
+       private void OnSelectFolderClick(object sender, RoutedEventArgs e)
+{
+    var dialog = new Microsoft.Win32.OpenFolderDialog();
+    bool? result = dialog.ShowDialog();
+
+    if (result == true && !string.IsNullOrWhiteSpace(dialog.FolderName))
+    {
+        var selectedFolder = dialog.FolderName;
+
+        ResultsList.Items.Clear();
+        ResultsList.Items.Add($"📁 Carpeta seleccionada: {selectedFolder}");
+        LoadFilesFromFolder(selectedFolder);
+    }
+}
+
+        private void LoadFilesFromFolder(string folderPath)
+        {
+            try
+            {
+                var files = new List<string>();
+                var extensions = new[] { ".mp3", ".wav" };
+
+                if (Directory.Exists(folderPath))
+                {
+                    foreach (var ext in extensions)
+                    {
+                        files.AddRange(Directory.GetFiles(folderPath, $"*{ext}", SearchOption.TopDirectoryOnly)
+                            .Select(Path.GetFileName));
+                    }
+                }
+
+                if (files.Count == 0)
+                {
+                    ResultsList.Items.Add("No se encontraron archivos .mp3 o .wav en esta carpeta.");
+                }
+                else
+                {
+                    ResultsList.Items.Add($"🎵 Archivos encontrados ({files.Count}):");
+                    foreach (var file in files)
+                    {
+                        ResultsList.Items.Add($" • {file}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ResultsList.Items.Add($"Error al leer la carpeta: {ex.Message}");
+            }
+        }
+
         private async void OnSearchClick(object sender, RoutedEventArgs e)
         {
             var query = SearchBox.Text?.Trim();
             if (string.IsNullOrEmpty(query))
             {
-                MessageBox.Show("Escribe un t�rmino de b�squeda.");
+                MessageBox.Show("Escribe un término de búsqueda.");
                 return;
             }
 
@@ -101,10 +153,10 @@ namespace ScanMusic.UI
                 }
                 else
                 {
-                    ResultsList.Items.Add($"?? Resultados ({results.Count}):");
+                    ResultsList.Items.Add($"🔍 Resultados ({results.Count}):");
                     foreach (var result in results)
                     {
-                        ResultsList.Items.Add($" ? {result}");
+                        ResultsList.Items.Add($" → {result}");
                     }
                 }
             }

@@ -23,7 +23,7 @@ namespace ScanMusic.Core
         public async Task<List<string>> SearchAsync(string query)
         {
             var results = new List<string>();
-            await Task.Delay(100); // Simulación de latencia de red
+            await Task.Delay(100);
 
             if (!string.IsNullOrEmpty(query) && query.Length > 2)
             {
